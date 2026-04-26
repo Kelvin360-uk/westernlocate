@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account • Wayfinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .travel-bg { background: #0f172a; }
+        .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+        .input-focus { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .input-focus:focus { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); transform: translateY(-1px); }
+        .btn-primary { background: linear-gradient(to right, #6366f1, #818cf8); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.3); }
+        .brand-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            background: linear-gradient(90deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="travel-bg text-white min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+        <!-- Logo + Stylish Title -->
+        <div class="flex justify-center mb-8">
+            <div class="flex items-center gap-x-3">
+                <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-xl">
+                    <i class="fas fa-globe text-white text-4xl"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">Wayfinder</h1>
+                    <p class="text-indigo-400 text-sm font-medium tracking-[3px] -mt-1">WESTERN REGION GHANA</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass rounded-3xl p-8 shadow-2xl border border-white/10">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-semibold tracking-tight">Start your journey</h2>
+                <p class="text-slate-400 mt-2">Create your free account in seconds</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="mb-4 p-4 rounded-2xl flex items-start gap-x-3 {% if category == 'error' %}bg-red-500/10 border border-red-500/30 text-red-300{% else %}bg-indigo-500/10 border border-indigo-500/30 text-indigo-300{% endif %}">
+                            <i class="fas {% if category == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mt-0.5"></i>
+                            <span class="text-sm">{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('register') }}" class="space-y-5">
+                <div class="grid grid-cols-1 gap-5">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1.5">Username</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-slate-500"></i>
+                            </div>
+                            <input type="text" name="username" required class="input-focus w-full bg-slate-900/70 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-500 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none" placeholder="explorer42">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1.5">Email address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-slate-500"></i>
+                            </div>
+                            <input type="email" name="email" required class="input-focus w-full bg-slate-900/70 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-500 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none" placeholder="you@example.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1.5">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-slate-500"></i>
+                            </div>
+                            <input type="password" name="password" required minlength="6" class="input-focus w-full bg-slate-900/70 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-500 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none" placeholder="Create a strong password">
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1.5 ml-1">Minimum 6 characters</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1.5">Confirm Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-slate-500"></i>
+                            </div>
+                            <input type="password" name="confirm" required class="input-focus w-full bg-slate-900/70 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-500 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none" placeholder="Confirm your password">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="btn-primary w-full py-4 rounded-2xl font-semibold text-lg flex items-center justify-center gap-x-2 shadow-lg">
+                        <span>Create Free Account</span>
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
